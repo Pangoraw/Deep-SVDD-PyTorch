@@ -19,15 +19,19 @@ class MLPNet(BaseNet):
         self.layer1 = nn.Linear(self.input_size,
                                 self.features_e * 4,
                                 bias=False)
+        self.bn1 = nn.BatchNorm1d(self.features_e * 4, eps=1e-04, affine=False)
         self.layer2 = nn.Linear(self.features_e * 4,
                                 self.features_e * 2,
                                 bias=False)
+        self.bn2 = nn.BatchNorm1d(self.features_e * 2, eps=1e-04, affine=False)
         self.layer3 = nn.Linear(self.features_e * 2, self.rep_dim, bias=False)
 
     def forward(self, x):
         x = self.layer1(x)
+        x = self.bn1(x)
         x = self.lrelu(x)
         x = self.layer2(x)
+        x = self.bn2(x)
         x = self.lrelu(x)
         x = self.layer3(x)
         return x
@@ -48,9 +52,11 @@ class MLPNetAutoencoder(BaseNet):
         self.layer1 = nn.Linear(self.input_size,
                                 self.features_e * 4,
                                 bias=False)
+        self.bn1 = nn.BatchNorm1d(self.features_e * 4, eps=1e-04, affine=False)
         self.layer2 = nn.Linear(self.features_e * 4,
                                 self.features_e * 2,
                                 bias=False)
+        self.bn2 = nn.BatchNorm1d(self.features_e * 2, eps=1e-04, affine=False)
         self.layer3 = nn.Linear(self.features_e * 2, self.rep_dim, bias=False)
 
         # Decoder rep_dim -> input_size
@@ -65,8 +71,10 @@ class MLPNetAutoencoder(BaseNet):
     def forward(self, x):
         # Encoder
         x = self.layer1(x)
+        x = self.bn1(x)
         x = self.lrelu(x)
         x = self.layer2(x)
+        x = self.bn2(x)
         x = self.lrelu(x)
         x = self.layer3(x)
 
