@@ -4,7 +4,7 @@ from .cifar10_LeNet_elu import CIFAR10_LeNet_ELU, CIFAR10_LeNet_ELU_Autoencoder
 from .mlp import MLPNet, MLPNetAutoencoder
 
 
-def build_network(net_name):
+def build_network(net_name, *args, **kwargs):
     """Builds the neural network."""
 
     implemented_networks = ('MLPNet', 'mnist_LeNet', 'cifar10_LeNet',
@@ -23,12 +23,12 @@ def build_network(net_name):
         net = CIFAR10_LeNet_ELU()
 
     if net_name == 'MLPNet':
-        net = MLPNet()
+        net = MLPNet(*args, **kwargs)
 
     return net
 
 
-def build_autoencoder(net_name):
+def build_autoencoder(net_name, *args, **kwargs):
     """Builds the corresponding autoencoder network."""
 
     implemented_networks = ('MLPNet', 'mnist_LeNet', 'cifar10_LeNet',
@@ -47,6 +47,6 @@ def build_autoencoder(net_name):
         ae_net = CIFAR10_LeNet_ELU_Autoencoder()
 
     if net_name == 'MLPNet':
-        ae_net = MLPNetAutoencoder()
+        ae_net = MLPNetAutoencoder(*args, **kwargs)
 
     return ae_net

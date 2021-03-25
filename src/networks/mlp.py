@@ -7,12 +7,15 @@ class MLPNet(BaseNet):
     """A naive fully-connected backbone model for non-convolutional inputs
     """
 
-    def __init__(self):
+    def __init__(self,
+                 input_size: int = 100,
+                 rep_dim: int = 32,
+                 features_e: int = 16):
         super(MLPNet, self).__init__()
 
-        self.rep_dim = 32
-        self.features_e = 16
-        self.input_size = 100
+        self.rep_dim = rep_dim
+        self.features_e = features_e
+        self.input_size = input_size
 
         self.lrelu = nn.LeakyReLU()
 
@@ -38,12 +41,15 @@ class MLPNet(BaseNet):
 
 
 class MLPNetAutoencoder(BaseNet):
-    def __init__(self):
+    def __init__(self,
+                 input_size: int = 100,
+                 rep_dim: int = 32,
+                 features_e: int = 16):
         super(MLPNetAutoencoder, self).__init__()
 
-        self.rep_dim = 32
-        self.features_e = 16
-        self.input_size = 100
+        self.rep_dim = rep_dim
+        self.features_e = features_e
+        self.input_size = input_size
 
         self.lrelu = nn.LeakyReLU()
         self.sigmoid = nn.Sigmoid()
