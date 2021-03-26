@@ -23,18 +23,22 @@ class MLPNet(BaseNet):
                                 self.features_e * 4,
                                 bias=False)
         self.bn1 = nn.BatchNorm1d(self.features_e * 4, eps=1e-04, affine=False)
+        self.dropout1 = nn.Dropout(p=0.2)
         self.layer2 = nn.Linear(self.features_e * 4,
                                 self.features_e * 2,
                                 bias=False)
         self.bn2 = nn.BatchNorm1d(self.features_e * 2, eps=1e-04, affine=False)
+        self.dropout2 = nn.Dropout(p=0.2)
         self.layer3 = nn.Linear(self.features_e * 2, self.rep_dim, bias=False)
 
     def forward(self, x):
         x = self.layer1(x)
         x = self.bn1(x)
+        x = self.dropout1(x)
         x = self.lrelu(x)
         x = self.layer2(x)
         x = self.bn2(x)
+        x = self.dropout2(x)
         x = self.lrelu(x)
         x = self.layer3(x)
         return x
@@ -59,10 +63,12 @@ class MLPNetAutoencoder(BaseNet):
                                 self.features_e * 4,
                                 bias=False)
         self.bn1 = nn.BatchNorm1d(self.features_e * 4, eps=1e-04, affine=False)
+        self.dropout1 = nn.Dropout(p=0.2)
         self.layer2 = nn.Linear(self.features_e * 4,
                                 self.features_e * 2,
                                 bias=False)
         self.bn2 = nn.BatchNorm1d(self.features_e * 2, eps=1e-04, affine=False)
+        self.dropout2 = nn.Dropout(p=0.2)
         self.layer3 = nn.Linear(self.features_e * 2, self.rep_dim, bias=False)
 
         # Decoder rep_dim -> input_size
@@ -78,9 +84,11 @@ class MLPNetAutoencoder(BaseNet):
         # Encoder
         x = self.layer1(x)
         x = self.bn1(x)
+        x = self.dropout1(x)
         x = self.lrelu(x)
         x = self.layer2(x)
         x = self.bn2(x)
+        x = self.dropout2(x)
         x = self.lrelu(x)
         x = self.layer3(x)
 
